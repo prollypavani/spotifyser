@@ -45,7 +45,7 @@ if "explicit" in df.columns:
 
 #sidebar filteringgg
 
-st.sidebar.header("🎯 Filters")
+st.sidebar.header("Filters")
 
 selected_genre = st.sidebar.selectbox(
     "Select Genre",
@@ -121,7 +121,7 @@ st.text("5. The distribution is right-skewed, meaning only a small number of son
 
 #boxplot
 
-st.subheader("📦 Popularity Boxplot")
+st.subheader("Popularity Boxplot")
 
 fig2 = px.box(
     filtered_df,
@@ -181,7 +181,7 @@ st.plotly_chart(fig4, use_container_width=True)
 
 #pie chart
 
-st.subheader("🥧 Genre Popularity Distribution")
+st.subheader("Genre Popularity Distribution")
 
 fig5 = px.pie(
     top_genres,
@@ -316,7 +316,7 @@ st.text("5. The ANOVA Test p-value (0.0) confirms that popularity differs signif
 
 #pca dimension reduction
 
-st.subheader("🧠 PCA (Dimensionality Reduction)")
+st.subheader("PCA (Dimensionality Reduction)")
 
 X_pca = filtered_df[features].dropna()
 
@@ -352,7 +352,7 @@ st.write("""
 
 #k means clusttering
 
-st.subheader("🎯 K-Means Clustering")
+st.subheader("K-Means Clustering ")
 
 kmeans = KMeans(n_clusters=3, random_state=42)
 clusters = kmeans.fit_predict(X_scaled)
@@ -414,7 +414,7 @@ st.write(f"MAE: {round(mae, 2)}")
 st.write(f"RMSE: {round(rmse, 2)}")
 st.write(f"R² Score: {round(r2, 3)}")
 
-st.subheader("Regression Insights (Spotify Popularity)")
+st.subheader("Regression Insights")
 
 st.write("""
 1. Model explains ~50% variance → moderate prediction power, other factors also matter.
