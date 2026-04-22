@@ -2,37 +2,24 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# --------------------------------------------------
-# PAGE CONFIG
-# --------------------------------------------------
-
 st.set_page_config(
     page_title="Spotify Music Popularity Dashboard",
     layout="wide"
 )
 
-st.title("🎵 Spotify Music Popularity Analysis Dashboard")
+st.title("Spotify Music Popularity Analysis Dashboard")
 st.markdown("Analyze how audio features influence song popularity on Spotify")
 
-# --------------------------------------------------
-# LOAD DATA
-# --------------------------------------------------
 
 df = pd.read_csv("data/masterdata/master_dataset.csv")
 
-# --------------------------------------------------
-# SIDEBAR FILTERS
-# --------------------------------------------------
+st.sidebar.header("Filters")
 
-st.sidebar.header("🎯 Filters")
-
-# Genre Filter
 selected_genre = st.sidebar.selectbox(
     "Select Genre",
     ["All"] + sorted(df["track_genre"].dropna().unique().tolist())
 )
 
-# Popularity Range Filter
 popularity_range = st.sidebar.slider(
     "Select Popularity Range",
     int(df["popularity"].min()),
@@ -42,8 +29,6 @@ popularity_range = st.sidebar.slider(
         int(df["popularity"].max())
     )
 )
-
-# Apply Filters
 filtered_df = df.copy()
 
 if selected_genre != "All":
@@ -56,18 +41,10 @@ filtered_df = filtered_df[
     (filtered_df["popularity"] <= popularity_range[1])
 ]
 
-# --------------------------------------------------
-# DATASET PREVIEW
-# --------------------------------------------------
-
-st.subheader("📂 Dataset Preview")
+st.subheader("Dataset Preview")
 st.dataframe(filtered_df.head())
 
-# --------------------------------------------------
-# QUICK STATISTICS
-# --------------------------------------------------
-
-st.subheader("📊 Quick Statistics")
+st.subheader("Quick Statistics")
 
 col1, col2, col3 = st.columns(3)
 
@@ -81,11 +58,7 @@ col3.metric(
     filtered_df["track_genre"].nunique()
 )
 
-# --------------------------------------------------
-# STATISTICAL SUMMARY
-# --------------------------------------------------
-
-st.subheader("📈 Statistical Summary")
+st.subheader("Statistical Summary")
 
 mean_popularity = round(filtered_df["popularity"].mean(), 2)
 median_popularity = round(filtered_df["popularity"].median(), 2)
@@ -100,11 +73,7 @@ col2.metric("Median Popularity", median_popularity)
 col3.metric("Std Deviation", std_popularity)
 col4.metric("Most Common Genre", most_common_genre)
 
-# --------------------------------------------------
-# CORRELATION VALUES
-# --------------------------------------------------
-
-st.subheader("🔗 Correlation with Popularity")
+st.subheader("Correlation with Popularity")
 
 corr_energy = round(
     filtered_df["popularity"].corr(filtered_df["energy"]), 3
@@ -122,11 +91,8 @@ st.write(f"Popularity vs Energy: {corr_energy}")
 st.write(f"Popularity vs Danceability: {corr_dance}")
 st.write(f"Popularity vs Valence: {corr_valence}")
 
-# --------------------------------------------------
-# POPULARITY DISTRIBUTION
-# --------------------------------------------------
 
-st.subheader("📊 Popularity Distribution")
+st.subheader("Popularity Distribution")
 
 fig1 = px.histogram(
     filtered_df,
@@ -137,11 +103,8 @@ fig1 = px.histogram(
 
 st.plotly_chart(fig1, use_container_width=True)
 
-# --------------------------------------------------
-# TOP 10 GENRES
-# --------------------------------------------------
 
-st.subheader("🎶 Top Genres by Average Popularity")
+st.subheader("Top Genres by Average Popularity")
 
 top_genres = (
     filtered_df
@@ -163,11 +126,8 @@ fig2 = px.bar(
 
 st.plotly_chart(fig2, use_container_width=True)
 
-# --------------------------------------------------
-# PIE CHART
-# --------------------------------------------------
 
-st.subheader("🥧 Genre Popularity Distribution")
+st.subheader(" Genre Popularity Distribution")
 
 genre_popularity = (
     filtered_df
@@ -189,11 +149,8 @@ fig3 = px.pie(
 
 st.plotly_chart(fig3, use_container_width=True)
 
-# --------------------------------------------------
-# CORRELATION HEATMAP
-# -----------------------------------------------
 
-st.subheader("🔥 Correlation Heatmap")
+st.subheader("Correlation Heatmap")
 
 features = [
     "popularity",
@@ -218,11 +175,8 @@ fig4 = px.imshow(
 
 st.plotly_chart(fig4, use_container_width=True)
 
-# --------------------------------------------------
-# SCATTER PLOT
-# --------------------------------------------------
 
-st.subheader("⚡ Energy vs Popularity")
+st.subheader("Energy vs Popularity")
 
 fig5 = px.scatter(
     filtered_df,
@@ -234,11 +188,8 @@ fig5 = px.scatter(
 
 st.plotly_chart(fig5, use_container_width=True)
 
-# --------------------------------------------------
-# TOP SONGS TABLE
-# --------------------------------------------------
 
-st.subheader("🏆 Top 10 Most Popular Songs")
+st.subheader("top 10 Most Popular Songs")
 
 top_songs = filtered_df.sort_values(
     by="popularity",
